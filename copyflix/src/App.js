@@ -5,14 +5,15 @@ import {
   BrowserRouter as Router,
   Routes
 } from "react-router-dom";
+import Browse from "./pages/Browse";
 
 const App = () =>  {
     return (
-        <Router>
+        <Router basename="/Browse">
           <div>
               <ul className="header">
                 <li><NavLink exact to = "/">NETFLIX</NavLink></li>
-                <li><NavLink exact to = "/">Home</NavLink></li>
+                <li><NavLink to = "/">Home</NavLink></li>
                 <li><NavLink to = "/TVShows">TV Shows</NavLink></li>
                 <li><NavLink to = "/Movies">Movies</NavLink></li>
                 <li><NavLink to = "/NewPopular">New & Popular</NavLink></li>
@@ -21,7 +22,7 @@ const App = () =>  {
               </ul>
               <div className="content">
                 <Routes>
-
+                  <Route exact path="/" element={<Browse />} />
                 </Routes>
               </div>
           </div>
