@@ -15,7 +15,9 @@ const App = () =>  {
   const inputRef = useRef(null)
 
   const toggleSearchBox = () => {
-    if (!searchBox && inputRef.current) inputRef.current.focus();
+    if (!searchBox && inputRef.current){
+      inputRef.current.focus();
+    } 
     setSearchBox(prevState => !prevState)
     }
 

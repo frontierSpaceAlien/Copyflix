@@ -2,7 +2,6 @@
   font-family: "NetflixSans";
   src: local("NetflixSans"),
    url("./fonts/NetflixSans-Regular.ttf") format("truetype");
-  font-weight: bold;
   }
 
 body {
@@ -113,4 +112,13 @@ ul.header li a {
   font-size: 1.3rem;
   font-size: medium;
   color: white;
+}
+.cardImg {
+  display: block;
+  width: 150px;
+  height: 150px;
+  border-radius: 1%;
+}
+.slideView {
+  margin-left: 5%;
 }
