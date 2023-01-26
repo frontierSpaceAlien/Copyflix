@@ -8,7 +8,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faBell } from '@fortawesome/free-solid-svg-icons'
 import Browse from "./pages/Browse";
-import logo from "./assets/netflix-logo.png"
+import logo from "./assets/logo/copyflix-logo.png"
 
 const App = () =>  {
   const [searchBox, setSearchBox] = useState(false)
