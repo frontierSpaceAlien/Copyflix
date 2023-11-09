@@ -12,6 +12,7 @@ import logo from "./assets/logo/copyflix-logo.png";
 
 const App = () => {
   const [searchBox, setSearchBox] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
   const inputRef = useRef(null);
 
   const toggleSearchBox = () => {
@@ -62,6 +63,7 @@ const App = () => {
                 type="text"
                 placeholder="Titles, people, genres"
                 maxLength="80"
+                onChange={(e) => setSearchValue(e.target.value)}
               />
             </div>
             <div>
