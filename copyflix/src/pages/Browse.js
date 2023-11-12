@@ -57,10 +57,11 @@ export default function Browse() {
 
         const settings = {
           infinite: false,
-          draggable: true,
+          draggable: false,
           speed: 500,
           slidesToShow: 6,
           slidesToScroll: 6,
+          arrows: false,
         };
 
         data.results.push(settings);
