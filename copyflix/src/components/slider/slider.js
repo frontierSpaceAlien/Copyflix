@@ -1,20 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
+import { Icon } from "@iconify/react";
+import chevronLeft from "@iconify/icons-mdi/chevron-left";
+import chevronRight from "@iconify/icons-mdi/chevron-right";
+import chevronDownCircleOutline from "@iconify/icons-mdi/chevron-down-circle-outline";
 import styled from "styled-components";
-let xAxis = "0";
 
+var xAxis = "0";
 const StyledSlider = styled(Slider)`
-  .slick-slide {
-    padding: 0 4px;
+  .img {
+    width: 100%;
     transition: transform 200ms ease-in-out;
-    box-sizing: border-box;
+    border-radius: 4px;
     user-select: none;
     &:hover {
+      transition: box-shadow 500ms transform 200ms ease-out;
+      box-shadow: 0px 0px 5px 0px #000000;
       transform: scale(1.4) translateY(-54px)
         translateX(${(props) => (props.sliderX ? xAxis : (xAxis = "0"))});
-      transition: transform 200ms ease-out;
       transition-delay: 400ms;
-      user-select: none;
+      user-select: none !important;
     }
   }
 `;
@@ -29,7 +34,8 @@ export default function Sliders(props) {
 
   function onSlideChange() {
     slider?.current?.slickNext();
-    setSliderState((data[sliceData].infinite = true));
+    data[sliceData].infinite = true;
+    setSliderState(data[sliceData].infinite);
   }
 
   function onBoxClick(id) {
@@ -42,10 +48,13 @@ export default function Sliders(props) {
 
   function onHover(id) {
     xAxis = "0";
+    setSliderState((data[sliceData].infinite = sliderState));
+    console.log("slider State = " + sliderState);
+    console.log("infinte in array = " + data[sliceData].infinite);
+
     for (var index = 0; index < data.length - 1; index++) {
       if (Number(id.alt) === data[index].id) {
         xAxis = "0";
-        console.log("hovering this image - " + data[index].original_title);
         if (index % 6 === 0) {
           setSliderX(true);
           xAxis = "40px";
@@ -67,7 +76,7 @@ export default function Sliders(props) {
             <div>
               <img
                 className="img"
-                src={`http://image.tmdb.org/t/p/w780${data.backdrop_path}`}
+                src={`https://image.tmdb.org/t/p/w780${data.backdrop_path}`}
                 alt={data.id}
                 onClick={(e) => onBoxClick(e.currentTarget)}
                 onMouseOver={(e) => onHover(e.currentTarget)}
@@ -81,10 +90,10 @@ export default function Sliders(props) {
         className="slider-left"
         onClick={() => slider?.current?.slickPrev()}
       >
-        Prev
+        <Icon className="arrow-icon" icon={chevronLeft}></Icon>
       </button>
       <button className="slider-right" onClick={() => onSlideChange()}>
-        Next
+        <Icon className="arrow-icon" icon={chevronRight}></Icon>
       </button>
     </div>
   );
