@@ -3,10 +3,12 @@ import Sliders from "../components/slider/slider";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import apiKey from "../utils/key";
+import { getGenres } from "../data/genre";
 
 export default function Browse() {
   const [movies, setMovies] = useState([]);
   const [trending, setTrend] = useState([]);
+  const [genre, setGenre] = useState([]);
 
   useEffect(() => {
     const getData = async (e) => {
@@ -36,6 +38,10 @@ export default function Browse() {
         const dataTrend = await resTrend.json();
         const dataTrend2 = await resTrend2.json();
         const dataTrend3 = await resTrend3.json();
+
+        // const genreGet = await getGenres();
+        // setGenre(genreGet);
+        // console.log(genre);
 
         for (let i = 0; i < 20; i++) {
           data.results.push(dataP2.results[i]);

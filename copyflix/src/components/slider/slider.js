@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import { Icon } from "@iconify/react";
-import chevronLeft from "@iconify/icons-mdi/chevron-left";
-import chevronRight from "@iconify/icons-mdi/chevron-right";
+import LeftControl from "./slider-control/LeftControl";
+import RightControl from "./slider-control/RightControl";
 import styled from "styled-components";
 
 var xAxis = "0";
@@ -23,89 +22,21 @@ const StyledSlider = styled(Slider)`
   }
 `;
 
-const LeftButton = styled.button`
-  position: absolute;
-  display: block;
-
-  border-radius: 3px;
-  background-color: black;
-  border: rgba(0, 0, 0, 0);
-  opacity: 40%;
-
-  align-items: center;
-  justify-content: center;
-  width: 4.3%;
-  top: 0;
-  height: 100%;
-  left: -4vw;
-  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
-
-  cursor: pointer;
-  color: #ffffff;
-  z-index: 1;
-
-  &:hover {
-    opacity: 60%;
-  }
-`;
-
-const RightIcon = styled(Icon)`
-  color: white;
-  transition: transform 50ms linear;
-  transform: scale(${(props) => (props.visible && props.scale ? "4.5" : "4")});
-  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
-`;
-
-const LeftIcon = styled(Icon)`
-  color: white;
-  transition: transform 50ms linear;
-  transform: scale(${(props) => (props.visible && props.scale ? "4.5" : "4")});
-  visibility: ${(props) => (props.visible ? "visible" : "hidden")};
-`;
-
-const RightButton = styled.button`
-  position: absolute;
-  display: flex;
-
-  border-radius: 4px;
-  background-color: black;
-  border: rgba(0, 0, 0, 0);
-  opacity: 40%;
-
-  align-items: center;
-  justify-content: center;
-  width: 4.1%;
-  top: 0;
-  height: 100%;
-  right: -4vw;
-
-  cursor: pointer;
-  color: #ffffff;
-  z-index: 1;
-
-  &:hover {
-    opacity: 60%;
-  }
-`;
-
 export default function Sliders(props) {
   const { data } = props;
   const [sliderState, setSliderState] = useState(false);
   const [sliderX, setSliderX] = useState(false);
   const [controlVisible, setControlVisible] = useState(false);
-  const [arrowRightVisible, setArrowRightVisibile] = useState(false);
-  const [arrowLeftVisible, setArrowLeftVisibile] = useState(false);
-  const [scale, setScale] = useState(false);
+  const [visibleRightArrows, setVisibleRightArrows] = useState(false);
+  const [visibleLeftArrows, setVisibleLeftArrows] = useState(false);
   const slider = React.useRef(null);
   const sliceData = data.length - 1;
   const settings = data[sliceData];
 
-  function onSlideChange() {
-    slider?.current?.slickNext();
-    data[sliceData].infinite = true;
+  function onSlideChange(infi) {
+    data[sliceData].infinite = infi;
     setSliderState(data[sliceData].infinite);
-    setControlVisible(true);
-    setArrowLeftVisibile(true);
+    setControlVisible(infi);
   }
 
   function onBoxClick(id) {
@@ -114,16 +45,16 @@ export default function Sliders(props) {
 
   function onMouseOut() {
     setSliderX(false);
-    setArrowRightVisibile(false);
-    setArrowLeftVisibile(false);
+    setVisibleRightArrows(false);
+    setVisibleLeftArrows(false);
   }
 
   function onHover(id) {
     xAxis = "0";
     setSliderState((data[sliceData].infinite = sliderState));
-    setArrowRightVisibile(true);
+    setVisibleRightArrows(true);
     if (controlVisible === true) {
-      setArrowLeftVisibile(true);
+      setVisibleLeftArrows(true);
     }
 
     for (var index = 0; index < data.length - 1; index++) {
@@ -140,21 +71,6 @@ export default function Sliders(props) {
         }
       }
     }
-  }
-
-  function onArrowHover() {
-    setArrowRightVisibile(true);
-    if (controlVisible === true) {
-      setArrowLeftVisibile(true);
-    }
-    setScale(true);
-    setSliderState((data[sliceData].infinite = sliderState));
-  }
-
-  function onArrowExit() {
-    setArrowRightVisibile(false);
-    setArrowLeftVisibile(false);
-    setScale(false);
   }
 
   return (
@@ -175,25 +91,16 @@ export default function Sliders(props) {
           );
         })}
       </StyledSlider>
-      <LeftButton
-        onMouseOver={() => onArrowHover()}
-        onMouseOut={() => onArrowExit()}
-        visible={controlVisible}
-        onClick={() => slider?.current?.slickPrev()}
-      >
-        <LeftIcon visible={arrowLeftVisible} scale={scale} icon={chevronLeft} />
-      </LeftButton>
-      <RightButton
-        onMouseOver={() => onArrowHover()}
-        onMouseOut={() => onArrowExit()}
-        onClick={() => onSlideChange()}
-      >
-        <RightIcon
-          visible={arrowRightVisible}
-          scale={scale}
-          icon={chevronRight}
-        />
-      </RightButton>
+      <LeftControl
+        slider={slider}
+        visible={sliderState}
+        onHover={visibleLeftArrows}
+      />
+      <RightControl
+        slider={slider}
+        slideChange={(infi) => onSlideChange(infi)}
+        onHover={visibleRightArrows}
+      />
     </div>
   );
 }
