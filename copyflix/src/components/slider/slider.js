@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
-import LeftControl from "./slider-control/LeftControl";
-import RightControl from "./slider-control/RightControl";
+import LeftControl from "../slider-control/LeftControl";
+import RightControl from "../slider-control/RightControl";
 import styled from "styled-components";
 
 var xAxis = "0";
@@ -11,6 +11,7 @@ const StyledSlider = styled(Slider)`
     transition: transform 200ms ease-in-out;
     border-radius: 4px;
     user-select: none;
+    cursor: pointer;
     &:hover {
       transition: box-shadow 500ms transform 200ms ease-out;
       box-shadow: 0px 0px 5px 0px #000000;
@@ -44,9 +45,22 @@ export default function Sliders(props) {
   }
 
   function onMouseOut() {
+    setSliderState((data[sliceData].infinite = sliderState));
     setSliderX(false);
     setVisibleRightArrows(false);
     setVisibleLeftArrows(false);
+  }
+
+  function onHoverRight(arrowState) {
+    setSliderState((data[sliceData].infinite = sliderState));
+    if (controlVisible === true) {
+      setVisibleLeftArrows(arrowState);
+    }
+  }
+
+  function onHoverLeft(arrowState) {
+    setSliderState((data[sliceData].infinite = sliderState));
+    setVisibleRightArrows(arrowState);
   }
 
   function onHover(id) {
@@ -56,6 +70,7 @@ export default function Sliders(props) {
     if (controlVisible === true) {
       setVisibleLeftArrows(true);
     }
+    // console.log(id % 6);
 
     for (var index = 0; index < data.length - 1; index++) {
       if (Number(id.alt) === data[index].id) {
@@ -95,11 +110,13 @@ export default function Sliders(props) {
         slider={slider}
         visible={sliderState}
         onHover={visibleLeftArrows}
+        leftArrowHover={(arrowState) => onHoverLeft(arrowState)}
       />
       <RightControl
         slider={slider}
         slideChange={(infi) => onSlideChange(infi)}
         onHover={visibleRightArrows}
+        rightArrowHover={(arrowState) => onHoverRight(arrowState)}
       />
     </div>
   );
