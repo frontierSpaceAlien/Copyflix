@@ -60,7 +60,7 @@ export default function Browse() {
           }
         }
 
-        for (var i = 0; i < 6; i++) {
+        for (var i = 0; i < 19; i++) {
           browse.push(genreGet.genres[random[i]]);
         }
         const genreMovies = await getBrowseData(browse);

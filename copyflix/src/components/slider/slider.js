@@ -8,13 +8,13 @@ var xAxis = "0";
 const StyledSlider = styled(Slider)`
   .img {
     width: 100%;
-    transition: transform 200ms ease-in-out;
     border-radius: 4px;
+    box-shadow: 0px 0px 5px 0px #000000;
+    transition: transform 200ms ease-in-out;
     user-select: none;
     cursor: pointer;
     &:hover {
       transition: box-shadow 500ms transform 200ms ease-out;
-      box-shadow: 0px 0px 5px 0px #000000;
       transform: scale(1.4) translateY(-67px)
         translateX(${(props) => (props.sliderX ? xAxis : (xAxis = "0"))});
       transition-delay: 400ms;
@@ -30,6 +30,7 @@ export default function Sliders(props) {
   const [controlVisible, setControlVisible] = useState(false);
   const [visibleRightArrows, setVisibleRightArrows] = useState(false);
   const [visibleLeftArrows, setVisibleLeftArrows] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
   const slider = React.useRef(null);
   const sliceData = data.length - 1;
   const settings = data[sliceData];
@@ -70,19 +71,37 @@ export default function Sliders(props) {
     if (controlVisible === true) {
       setVisibleLeftArrows(true);
     }
-    // console.log(id % 6);
+    console.log("current slide index = " + activeSlide);
+    // console.log(data.length - 1);
 
     for (var index = 0; index < data.length - 1; index++) {
       if (Number(id.alt) === data[index].id) {
-        xAxis = "0";
-        if (index % 6 === 0) {
-          setSliderX(true);
-          xAxis = "45px";
-        } else if (index % 6 === 5) {
-          setSliderX(true);
-          xAxis = "-45px";
+        console.log("current index: " + index);
+        console.log("size of data array: " + sliceData);
+
+        // checks for uneven slide count and adjusts the css accordingly
+        // also determines if it is on the last slide.
+        if (activeSlide + 6 > sliceData) {
+          console.log("index if adjusting for uneven: " + ((index - 2) % 6));
+          if ((index - 2) % 6 === 0) {
+            setSliderX(true);
+            xAxis = "45px";
+          } else if ((index - 2) % 6 === 5) {
+            setSliderX(true);
+            xAxis = "-45px";
+          } else {
+            setSliderX(false);
+          }
         } else {
-          setSliderX(false);
+          if (index % 6 === 0) {
+            setSliderX(true);
+            xAxis = "45px";
+          } else if (index % 6 === 5) {
+            setSliderX(true);
+            xAxis = "-45px";
+          } else {
+            setSliderX(false);
+          }
         }
       }
     }
@@ -90,7 +109,14 @@ export default function Sliders(props) {
 
   return (
     <div style={{ position: "relative" }}>
-      <StyledSlider sliderX={sliderX} ref={slider} {...settings}>
+      <StyledSlider
+        sliderX={sliderX}
+        ref={slider}
+        {...settings}
+        beforeChange={(current, next) => {
+          setActiveSlide(next);
+        }}
+      >
         {data.slice(0, sliceData).map((data) => {
           return (
             <div>
