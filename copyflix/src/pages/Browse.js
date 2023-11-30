@@ -8,6 +8,7 @@ import {
   getTrending,
   getBrowseData,
 } from "../data/data";
+import { Skeleton } from "@mui/material";
 
 export default function Browse() {
   const [movies, setMovies] = useState([]);
@@ -71,7 +72,6 @@ export default function Browse() {
         for (let i = 0; i < genreMovies.length; i++) {
           genreMovies[i].push(settings);
         }
-        console.log(genreMovies);
 
         setGenre(browse);
         setMovies(data);
@@ -84,22 +84,34 @@ export default function Browse() {
     getData();
   }, []);
 
+  function updateData(newData) {
+    setDiffData(newData);
+  }
+
   return (
     <div className="slider">
-      <h2 style={{ color: "lightgrey" }}> Popular on Copyflix</h2>
-      <Sliders data={movies} />
+      {/* <h2 style={{ color: "lightgrey" }}> Popular on Copyflix</h2>
+      <Sliders data={movies} index={0} diffData={diffData} />
       <div className="gap" />
       <h2 style={{ color: "lightgrey" }}> Trending Now</h2>
-      <Sliders data={trending} />
+      <Sliders data={trending} index={1} diffData={diffData} /> */}
       {diffData.map((movie, i = 0) => {
         return [
           <div>
             <div className="gap" />
             <h2 style={{ color: "lightgrey" }}>{genre[i++].name} Movies</h2>
-            <Sliders data={movie} />
+            <Sliders
+              data={movie}
+              index={i++}
+              diffData={diffData}
+              updateData={(newData) => updateData(newData)}
+            />
           </div>,
         ];
       })}
+      <div>
+        <h2>hello i am footer</h2>
+      </div>
     </div>
   );
 }

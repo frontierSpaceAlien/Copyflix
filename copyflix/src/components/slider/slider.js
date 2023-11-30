@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import LeftControl from "../slider-control/LeftControl";
 import RightControl from "../slider-control/RightControl";
 import styled from "styled-components";
+import ImageRender from "../ImageRender";
 
 var xAxis = "0";
+var findLastSlideAmount = "0";
 const StyledSlider = styled(Slider)`
-  .img {
-    width: 100%;
-    border-radius: 4px;
-    box-shadow: 0px 0px 5px 0px #000000;
-    transition: transform 200ms ease-in-out;
-    user-select: none;
-    cursor: pointer;
+  .slick-slide {
+    padding: 0 3px;
+    box-sizing: border-box;
+    transition: box-shadow 500ms, transform 200ms ease-in-out;
+    user-select: none !important;
+    overflow: visible !important;
     &:hover {
-      transition: box-shadow 500ms transform 200ms ease-out;
-      transform: scale(1.4) translateY(-67px)
-        translateX(${(props) => (props.sliderX ? xAxis : (xAxis = "0"))});
+      transform: scale(1.4) translateY(-34%)
+        translateX(${(props) => (props.sliderTranslateX ? xAxis : xAxis)});
       transition-delay: 400ms;
       user-select: none !important;
     }
@@ -24,101 +24,106 @@ const StyledSlider = styled(Slider)`
 `;
 
 export default function Sliders(props) {
-  const { data } = props;
+  const { data, index, diffData, updateData } = props;
+  const [mediaData, setMediaData] = useState(data);
   const [sliderState, setSliderState] = useState(false);
-  const [sliderX, setSliderX] = useState(false);
+  const [sliderTranslateX, setSliderTranslateX] = useState(false);
   const [controlVisible, setControlVisible] = useState(false);
   const [visibleRightArrows, setVisibleRightArrows] = useState(false);
   const [visibleLeftArrows, setVisibleLeftArrows] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
-  const slider = React.useRef(null);
+  const slider = useRef(null);
   const sliceData = data.length - 1;
   const settings = data[sliceData];
 
-  function onSlideChange(infi) {
-    data[sliceData].infinite = infi;
-    setSliderState(data[sliceData].infinite);
+  // When the user presses next on the slider, this function sets the slider to
+  // infinite scroll.
+  // It clones the original dataset and finds the index of which slider has been changed.
+  // It then updates the original data with new data. This prevents any state bugs since
+  // all sliders share the same states.
+  function onSlideChange(infi, i) {
+    const listLocker = JSON.parse(JSON.stringify(diffData));
+    listLocker[i][sliceData].infinite = infi;
+    updateData(listLocker);
+    setSliderState(listLocker[i][sliceData].infinite);
     setControlVisible(infi);
   }
 
   function onBoxClick(id) {
-    console.log("Box Clicked! - " + id.alt);
+    console.log("Box Clicked! - " + id);
   }
 
-  function onMouseOut() {
-    setSliderState((data[sliceData].infinite = sliderState));
-    setSliderX(false);
+  function onMouseLeave() {
+    setSliderTranslateX(false);
     setVisibleRightArrows(false);
     setVisibleLeftArrows(false);
   }
 
   function onHoverRight(arrowState) {
-    setSliderState((data[sliceData].infinite = sliderState));
     if (controlVisible === true) {
       setVisibleLeftArrows(arrowState);
     }
   }
 
   function onHoverLeft(arrowState) {
-    setSliderState((data[sliceData].infinite = sliderState));
     setVisibleRightArrows(arrowState);
   }
 
-  function onHover(id) {
-    xAxis = "0";
-    setSliderState((data[sliceData].infinite = sliderState));
+  const onHover = (id) => {
     setVisibleRightArrows(true);
+
     if (controlVisible === true) {
       setVisibleLeftArrows(true);
     }
-    console.log("current slide index = " + activeSlide);
-    // console.log(data.length - 1);
 
-    for (var index = 0; index < data.length - 1; index++) {
+    for (let index = 0; index < data.length - 1; index++) {
       if (Number(id.alt) === data[index].id) {
-        console.log("current index: " + index);
-        console.log("size of data array: " + sliceData);
-
         // checks for uneven slide count and adjusts the css accordingly
         // also determines if it is on the last slide.
         if (activeSlide + 6 > sliceData) {
-          console.log("index if adjusting for uneven: " + ((index - 2) % 6));
-          if ((index - 2) % 6 === 0) {
-            setSliderX(true);
-            xAxis = "45px";
-          } else if ((index - 2) % 6 === 5) {
-            setSliderX(true);
-            xAxis = "-45px";
+          findLastSlideAmount = Math.abs(activeSlide - sliceData);
+          console.log(
+            "index if adjusting for uneven: " +
+              ((index - findLastSlideAmount) % 6)
+          );
+          if ((index - findLastSlideAmount) % 6 === 0) {
+            setSliderTranslateX(true);
+            xAxis = "14%";
+          } else if ((index - findLastSlideAmount) % 6 === 5) {
+            setSliderTranslateX(true);
+            xAxis = "-14%";
           } else {
-            setSliderX(false);
+            setSliderTranslateX(false);
+            xAxis = "0";
           }
         } else {
           if (index % 6 === 0) {
-            setSliderX(true);
-            xAxis = "45px";
+            setSliderTranslateX(true);
+            xAxis = "14%";
           } else if (index % 6 === 5) {
-            setSliderX(true);
-            xAxis = "-45px";
+            setSliderTranslateX(true);
+            xAxis = "-14%";
           } else {
-            setSliderX(false);
+            setSliderTranslateX(false);
+            xAxis = "0";
           }
         }
       }
     }
-  }
+  };
 
   return (
     <div style={{ position: "relative" }}>
       <StyledSlider
-        sliderX={sliderX}
+        sliderTranslateX={sliderTranslateX}
         ref={slider}
         {...settings}
         beforeChange={(current, next) => {
           setActiveSlide(next);
         }}
       >
-        {data.slice(0, sliceData).map((data) => {
-          return (
+        {mediaData.slice(0, sliceData).map((data) => (
+          <div>
             <div>
               <img
                 className="img"
@@ -126,11 +131,16 @@ export default function Sliders(props) {
                 alt={data.id}
                 onClick={(e) => onBoxClick(e.currentTarget)}
                 onMouseEnter={(e) => onHover(e.currentTarget)}
-                onMouseOut={() => onMouseOut()}
+                onMouseLeave={() => onMouseLeave()}
               />
             </div>
-          );
-        })}
+            {/* <ImageRender
+              data={data}
+              onHover={(e) => onHover(e)}
+              onMouseLeave={() => onMouseLeave()}
+            ></ImageRender> */}
+          </div>
+        ))}
       </StyledSlider>
       <LeftControl
         slider={slider}
@@ -140,8 +150,9 @@ export default function Sliders(props) {
       />
       <RightControl
         slider={slider}
-        slideChange={(infi) => onSlideChange(infi)}
+        slideChange={(infi, i) => onSlideChange(infi, i)}
         onHover={visibleRightArrows}
+        slideIndex={index - 1}
         rightArrowHover={(arrowState) => onHoverRight(arrowState)}
       />
     </div>

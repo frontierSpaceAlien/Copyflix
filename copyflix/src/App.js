@@ -12,8 +12,17 @@ import logo from "./assets/logo/copyflix-logo.png";
 
 const App = () => {
   const [searchBox, setSearchBox] = useState(false);
+  const [stickyNav, setStickyNav] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const inputRef = useRef(null);
+
+  function stickSet() {
+    if (window.scrollY >= 392) {
+      setStickyNav(true);
+    } else {
+      setStickyNav(false);
+    }
+  }
 
   const toggleSearchBox = () => {
     if (!searchBox && inputRef.current) {

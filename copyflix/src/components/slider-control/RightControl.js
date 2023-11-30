@@ -22,7 +22,7 @@ const RightButton = styled.button`
 
   align-items: center;
   justify-content: center;
-  width: 4.1%;
+  width: 4.2%;
   top: 0;
   height: 100%;
   right: -4vw;
@@ -37,13 +37,13 @@ const RightButton = styled.button`
 `;
 
 export default function RightControl(props) {
-  const { slider, slideChange, onHover, rightArrowHover } = props;
+  const { slider, slideChange, onHover, rightArrowHover, slideIndex } = props;
   const [arrowRightVisible, setArrowRightVisibile] = useState(false);
   const [scale, setScale] = useState(false);
 
   function onSlideChange() {
     slider?.current?.slickNext();
-    slideChange(true);
+    slideChange(true, slideIndex);
   }
 
   function onArrowHover() {
