@@ -34,7 +34,7 @@ const LeftIcon = styled(Icon)`
   transition: transform 50ms linear;
   visibility: ${(props) =>
     props.visible || props.visiblearrow ? "visible" : "hidden"};
-  transform: scale(${(props) => (props.visible && props.scale ? "5" : "4")});
+  transform: scale(${(props) => (props.visible && props.scale ? "6" : "5")});
 `;
 
 export default function LeftControl(props) {

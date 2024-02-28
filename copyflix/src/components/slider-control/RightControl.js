@@ -6,7 +6,7 @@ import styled from "styled-components";
 const RightIcon = styled(Icon)`
   color: white;
   transition: transform 50ms linear;
-  transform: scale(${(props) => (props.visible && props.scale ? "5" : "4")});
+  transform: scale(${(props) => (props.visible && props.scale ? "6" : "5")});
   visibility: ${(props) =>
     props.visible || props.visiblearrow ? "visible" : "hidden"};
 `;
@@ -22,7 +22,7 @@ const RightButton = styled.button`
 
   align-items: center;
   justify-content: center;
-  width: 4.2%;
+  width: 4.31%;
   top: 0;
   height: 100%;
   right: -4vw;

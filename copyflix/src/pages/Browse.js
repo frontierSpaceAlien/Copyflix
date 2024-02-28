@@ -9,12 +9,14 @@ import {
   getBrowseData,
 } from "../data/data";
 import { Skeleton } from "@mui/material";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Browse() {
   const [movies, setMovies] = useState([]);
   const [trending, setTrend] = useState([]);
   const [genre, setGenre] = useState([]);
   const [diffData, setDiffData] = useState([]);
+  const [loading, setLoading] = useState(false);
   let rand = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
   function shuffle(o) {
@@ -37,6 +39,36 @@ export default function Browse() {
           slidesToShow: 6,
           slidesToScroll: 6,
           arrows: false,
+          responsive: [
+            {
+              breakpoint: 800,
+              settings: {
+                slidesToShow: 5,
+                slidesToScroll: 5,
+              },
+            },
+            {
+              breakpoint: 700,
+              settings: {
+                slidesToShow: 4,
+                slidesToScroll: 4,
+              },
+            },
+            {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+              },
+            },
+            {
+              breakpoint: 500,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+              },
+            },
+          ],
         };
         const [data, data2, data3] = await getPopularMovies();
         const [trend, trend2, trend3] = await getTrending();
@@ -88,29 +120,36 @@ export default function Browse() {
     setDiffData(newData);
   }
 
+  function load(check) {
+    setLoading(check);
+  }
+
   return (
-    <div className="slider">
-      {/* <h2 style={{ color: "lightgrey" }}> Popular on Copyflix</h2>
+    <div>
+      <div className="slider">
+        {/* <h2 style={{ color: "lightgrey" }}> Popular on Copyflix</h2>
       <Sliders data={movies} index={0} diffData={diffData} />
       <div className="gap" />
       <h2 style={{ color: "lightgrey" }}> Trending Now</h2>
-      <Sliders data={trending} index={1} diffData={diffData} /> */}
-      {diffData.map((movie, i = 0) => {
-        return [
-          <div>
-            <div className="gap" />
-            <h2 style={{ color: "lightgrey" }}>{genre[i++].name} Movies</h2>
-            <Sliders
-              data={movie}
-              index={i++}
-              diffData={diffData}
-              updateData={(newData) => updateData(newData)}
-            />
-          </div>,
-        ];
-      })}
-      <div>
-        <h2>hello i am footer</h2>
+    <Sliders data={trending} index={1} diffData={diffData} /> */}
+        {diffData.map((movie, i = 0) => {
+          return [
+            <div>
+              <div className="gap" />
+              <h2 style={{ color: "lightgrey" }}>{genre[i++].name} Movies</h2>
+              <Sliders
+                data={movie}
+                index={i++}
+                diffData={diffData}
+                updateData={(newData) => updateData(newData)}
+                checkLoad={(check) => load(check)}
+              />
+            </div>,
+          ];
+        })}
+        <div>
+          <h2>hello i am footer</h2>
+        </div>
       </div>
     </div>
   );
