@@ -14,6 +14,7 @@ const RightIcon = styled(Icon)`
 const RightButton = styled.button`
   position: absolute;
   display: flex;
+  visibility: ${(props) => (props.skeletonVisible ? "visible" : "hidden")};
 
   border-radius: 4px;
   background-color: black;
@@ -29,7 +30,7 @@ const RightButton = styled.button`
 
   cursor: pointer;
   color: #ffffff;
-  z-index: 1;
+  z-index: 10;
 
   &:hover {
     opacity: 60%;
@@ -37,7 +38,14 @@ const RightButton = styled.button`
 `;
 
 export default function RightControl(props) {
-  const { slider, slideChange, onHover, rightArrowHover, slideIndex } = props;
+  const {
+    skeletonVisible,
+    slider,
+    slideChange,
+    onHover,
+    rightArrowHover,
+    slideIndex,
+  } = props;
   const [arrowRightVisible, setArrowRightVisibile] = useState(false);
   const [scale, setScale] = useState(false);
 
@@ -60,6 +68,7 @@ export default function RightControl(props) {
 
   return (
     <RightButton
+      skeletonVisible={skeletonVisible}
       onMouseOver={() => onArrowHover()}
       onMouseOut={() => onArrowExit()}
       onClick={() => onSlideChange()}

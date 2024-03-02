@@ -1,10 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Slider from "react-slick";
 import LeftControl from "../slider-control/LeftControl";
 import RightControl from "../slider-control/RightControl";
 import styled from "styled-components";
-import ImageRender from "../ImageRender";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
 import { Skeleton } from "@mui/material";
+import { FaCirclePlay } from "react-icons/fa6";
+import { BsPlusCircle } from "react-icons/bs";
+import { BsHandThumbsUp } from "react-icons/bs";
+import { IoIosArrowDropdown } from "react-icons/io";
 
 var xAxis = "0";
 var boxIndex = "0";
@@ -25,7 +30,7 @@ const StyledSlider = styled(Slider)`
 `;
 
 export default function Sliders(props) {
-  const { data, index, diffData, updateData, checkLoad } = props;
+  const { data, index, diffData, updateData, checkLoad, genre } = props;
   const [mediaData, setMediaData] = useState(data);
   const [sliderState, setSliderState] = useState(false);
   const [sliderTranslateX, setSliderTranslateX] = useState(false);
@@ -119,19 +124,27 @@ export default function Sliders(props) {
 
   const imageLoad = () => {
     setLoaded(true);
-    checkLoad(true);
+    checkLoad();
   };
 
   return (
     <div style={{ position: "relative" }}>
-      {loaded ? null : (
-        <Skeleton
-          sx={{ bgcolor: "grey.900" }}
-          variant="rectangular"
-          width={265}
-          height={400}
-        />
-      )}
+      <Grid container wrap="nowrap">
+        {!loaded &&
+          Array.from(new Array(6)).map((item, index) => (
+            <Box key={index} sx={{ width: "100%", marginRight: 1, my: 0 }}>
+              <Skeleton
+                sx={{
+                  bgcolor: "grey.900",
+                  paddingBottom: "90%",
+                  paddingTop: "50%",
+                }}
+                width={"100%"}
+                variant="rectangular"
+              />
+            </Box>
+          ))}
+      </Grid>
       <StyledSlider
         sliderTranslateX={sliderTranslateX}
         boxHover={visibleRightArrows}
@@ -144,6 +157,7 @@ export default function Sliders(props) {
         {mediaData.slice(0, sliceData).map((data) => (
           <div className="box">
             <img
+              style={loaded ? {} : { display: "none" }}
               className="box img"
               src={`https://image.tmdb.org/t/p/w780${data.poster_path}`}
               alt={data.id}
@@ -151,28 +165,27 @@ export default function Sliders(props) {
               onMouseOver={(e) => onHover(e.currentTarget)}
               onMouseLeave={() => onMouseLeave()}
               onLoad={imageLoad}
-              loading="lazy"
             />
             <div className="box text">
               <div class="icons">
-                <button>Play</button>
-                <button>Add to list</button>
-                <button>Rate</button>
-                <button>More Info</button>
+                <FaCirclePlay style={{ marginRight: "4%" }} size={"10%"} />
+                <BsPlusCircle style={{ marginRight: "3%" }} size={"10%"} />
+                <BsHandThumbsUp style={{ marginRight: "4%" }} size={"10%"} />
+                <IoIosArrowDropdown
+                  style={{ marginRight: "4%" }}
+                  size={"10%"}
+                />
               </div>
-              <div class="info">
-                <span class="match">98% Match</span>
-                <span class="rating">18+</span>
-                <span class="match">5 Seasons</span>
-                <p class="genres">{data.original_title}</p>
-                <p class="genres">genre 1 genre 2 genre 3</p>
-              </div>
+              <span class="match">
+                {Math.floor(data.vote_average * 10)}% User Score
+              </span>
+              <span class="rating">{data.original_language.toUpperCase()}</span>
+              <span class="releaseDate">{data.release_date}</span>
+              {/* <p class="genres">{data.original_title}</p> */}
+              {/* {data.genre_ids.map((genre) => (
+                ))} */}
+              <p class="genres">{data.genre_ids.join(" • ")}</p>
             </div>
-            {/* <ImageRender
-                data={data}
-                onHover={(e) => onHover(e)}
-                onMouseLeave={() => onMouseLeave()}
-              ></ImageRender> */}
           </div>
         ))}
       </StyledSlider>
@@ -183,6 +196,7 @@ export default function Sliders(props) {
         leftArrowHover={(arrowState) => onHoverLeft(arrowState)}
       />
       <RightControl
+        skeletonVisible={loaded}
         slider={slider}
         slideChange={(infi, i) => onSlideChange(infi, i)}
         onHover={visibleRightArrows}

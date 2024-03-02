@@ -72,7 +72,21 @@ export async function getBrowseData(genreID) {
     // const data2 = await res2.json();
     // const data3 = await res3.json();.
     browseData.push(data.results);
+
+    for (let i = 0; i < browseData.length; i++) {
+      for (let e = 0; e < browseData[i].length - 1; e++) {
+        for (let f = 0; f < browseData[i][e].genre_ids.length; f++) {
+          for (let t = 0; t < genreID.length; t++) {
+            if (genreID[t].id === browseData[i][e].genre_ids[f]) {
+              browseData[i][e].genre_ids[f] = genreID[t].name;
+            }
+          }
+        }
+      }
+    }
   }
+  console.log(browseData);
+  console.log(genreID);
 
   return browseData;
 }

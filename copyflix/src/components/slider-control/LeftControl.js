@@ -22,7 +22,7 @@ const LeftButton = styled.button`
 
   cursor: pointer;
   color: #ffffff;
-  z-index: 1;
+  z-index: 10;
 
   &:hover {
     opacity: 60%;
@@ -38,7 +38,7 @@ const LeftIcon = styled(Icon)`
 `;
 
 export default function LeftControl(props) {
-  const { slider, visible, onHover, leftArrowHover } = props;
+  const { skeletonVisible, slider, visible, onHover, leftArrowHover } = props;
   const [arrowLeftVisible, setArrowLeftVisibile] = useState(false);
   const [scale, setScale] = useState(false);
 
