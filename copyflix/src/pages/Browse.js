@@ -11,7 +11,10 @@ import {
 import billboard from "../assets/images/billboard.jpg";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import { IoIosPlay } from "react-icons/io";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 import { Skeleton } from "@mui/material";
+import { FaPlay } from "react-icons/fa";
 
 export default function Browse() {
   const [movies, setMovies] = useState([]);
@@ -147,14 +150,33 @@ export default function Browse() {
       <div style={loaded ? {} : { display: "none" }}>
         <div className="browseContainer">
           <div className="infoContainer">
-            <h1 className="infoText">THE CSI MIAMI</h1>
-            <text className="infoDesc">
+            <h1 className="infoTitle">CSI MIAMI</h1>
+            <p className="infoDesc">
               Using state-of-the-art forensic methods, the Las vegas Police
               Department's Crime Scene Investigation bureau solves Sin City's
               most baffling murders.
-            </text>
+            </p>
+            <div className="billboardButtons">
+              <div className="billboardPlay">
+                <FaPlay
+                  style={{ marginRight: "6%", marginLeft: "20%" }}
+                  size={"1.3vw"}
+                />
+                <p>Play</p>
+              </div>
+              <div className="billboardMoreInfo">
+                <AiOutlineInfoCircle
+                  style={{
+                    color: "white",
+                    marginRight: "4%",
+                    marginLeft: "10%",
+                  }}
+                  size={"1.7vw"}
+                />
+                <p>More Info</p>
+              </div>
+            </div>
           </div>
-          <div className="filter" />
           <img className="billboard" src={billboard} alt="billboard" />
         </div>
         <div className="mainContainer">

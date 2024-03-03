@@ -127,6 +127,10 @@ export default function Sliders(props) {
     checkLoad();
   };
 
+  const onClickFunction = () => {
+    console.log("hello button clicked!");
+  };
+
   return (
     <div style={{ position: "relative" }}>
       <Grid container wrap="nowrap">
@@ -168,22 +172,16 @@ export default function Sliders(props) {
             />
             <div className="box text">
               <div class="icons">
-                <FaCirclePlay style={{ marginRight: "4%" }} size={"10%"} />
-                <BsPlusCircle style={{ marginRight: "3%" }} size={"10%"} />
-                <BsHandThumbsUp style={{ marginRight: "4%" }} size={"10%"} />
-                <IoIosArrowDropdown
-                  style={{ marginRight: "4%" }}
-                  size={"10%"}
-                />
+                <FaCirclePlay size={"10%"} className="playButton" />
+                <BsPlusCircle size={"10%"} className="addList" />
+                <BsHandThumbsUp size={"10%"} className="userRate" />
+                <IoIosArrowDropdown size={"10%"} className="moreInfo" />
               </div>
               <span class="match">
                 {Math.floor(data.vote_average * 10)}% User Score
               </span>
               <span class="rating">{data.original_language.toUpperCase()}</span>
               <span class="releaseDate">{data.release_date}</span>
-              {/* <p class="genres">{data.original_title}</p> */}
-              {/* {data.genre_ids.map((genre) => (
-                ))} */}
               <p class="genres">{data.genre_ids.join(" • ")}</p>
             </div>
           </div>
