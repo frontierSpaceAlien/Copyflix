@@ -57,12 +57,14 @@ export async function getTrending() {
 
 export async function getBillboardMovie() {
   try {
-    const randPage = Math.floor(Math.random() * (20 - 0)) + 0;
+    const randPage = Math.floor(Math.random() * (50 - 1)) + 1;
     const resLatest = await fetch(
       `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${randPage}&api_key=${apiKey}`
     );
     const latestID = await resLatest.json();
     const rand = Math.floor(Math.random() * (20 - 0)) + 0;
+
+    console.log(latestID);
 
     return latestID.results[rand];
   } catch (err) {

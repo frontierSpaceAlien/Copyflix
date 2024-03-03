@@ -134,8 +134,6 @@ export default function Browse() {
     setLoaded(true);
   }
 
-  console.log(billboardMovie);
-
   return (
     <div>
       <Grid container wrap="nowrap">
