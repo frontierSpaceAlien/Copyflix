@@ -7,11 +7,13 @@ import {
   getPopularMovies,
   getTrending,
   getBrowseData,
+  getBillboardMovie,
 } from "../data/data";
-import billboard from "../assets/images/billboard.jpg";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import { IoIosPlay } from "react-icons/io";
+import Rating from "react-rating";
+import { FaStar } from "react-icons/fa";
+import { FaRegStar } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { Skeleton } from "@mui/material";
 import { FaPlay } from "react-icons/fa";
@@ -21,6 +23,7 @@ export default function Browse() {
   const [trending, setTrend] = useState([]);
   const [genre, setGenre] = useState([]);
   const [diffData, setDiffData] = useState([]);
+  const [billboardMovie, setBillboardMovie] = useState([]);
   const [loaded, setLoaded] = useState(false);
   let rand = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
@@ -78,6 +81,7 @@ export default function Browse() {
         const [data, data2, data3] = await getPopularMovies();
         const [trend, trend2, trend3] = await getTrending();
         const genreGet = await getGenres();
+        var billboardMovieGet = await getBillboardMovie();
         var browse = [];
 
         // for (let i = 0; i < 20; i++) {
@@ -110,6 +114,7 @@ export default function Browse() {
           genreMovies[i].push(settings);
         }
 
+        setBillboardMovie(billboardMovieGet);
         setGenre(browse);
         setMovies(data);
         setTrend(trend);
@@ -128,6 +133,8 @@ export default function Browse() {
   function loadedDiv() {
     setLoaded(true);
   }
+
+  console.log(billboardMovie);
 
   return (
     <div>
@@ -150,12 +157,15 @@ export default function Browse() {
       <div style={loaded ? {} : { display: "none" }}>
         <div className="browseContainer">
           <div className="infoContainer">
-            <h1 className="infoTitle">CSI MIAMI</h1>
-            <p className="infoDesc">
-              Using state-of-the-art forensic methods, the Las vegas Police
-              Department's Crime Scene Investigation bureau solves Sin City's
-              most baffling murders.
-            </p>
+            <p className="infoTitle">{billboardMovie.title}</p>
+            <Rating
+              className="ratingStar"
+              readonly={true}
+              initialRating={billboardMovie.vote_average / 2}
+              emptySymbol={<FaRegStar size={"1.3vw"} />}
+              fullSymbol={<FaStar size={"1.3vw"} />}
+            />
+            <p className="infoDesc">{billboardMovie.overview}</p>
             <div className="billboardButtons">
               <div className="billboardPlay">
                 <FaPlay
@@ -177,7 +187,11 @@ export default function Browse() {
               </div>
             </div>
           </div>
-          <img className="billboard" src={billboard} alt="billboard" />
+          <img
+            className="billboard"
+            src={`https://image.tmdb.org/t/p/original${billboardMovie.backdrop_path}`}
+            alt="billboard"
+          />
         </div>
         <div className="mainContainer">
           <div className="slider">

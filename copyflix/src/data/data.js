@@ -54,6 +54,22 @@ export async function getTrending() {
     console.log(err);
   }
 }
+
+export async function getBillboardMovie() {
+  try {
+    const randPage = Math.floor(Math.random() * (20 - 0)) + 0;
+    const resLatest = await fetch(
+      `https://api.themoviedb.org/3/movie/popular?language=en-US&page=${randPage}&api_key=${apiKey}`
+    );
+    const latestID = await resLatest.json();
+    const rand = Math.floor(Math.random() * (20 - 0)) + 0;
+
+    return latestID.results[rand];
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function getBrowseData(genreID) {
   var res = null;
   var data = null;
@@ -85,8 +101,6 @@ export async function getBrowseData(genreID) {
       }
     }
   }
-  console.log(browseData);
-  console.log(genreID);
 
   return browseData;
 }

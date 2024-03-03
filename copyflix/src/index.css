@@ -249,7 +249,7 @@ ul.header li a {
 .billboard {
   width: 100%;
   z-index: 0;
-  mask: linear-gradient(to bottom, rgba(0, 0, 0, 1) 30%, transparent 100%);
+  mask: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 30%, transparent 100%);
 }
 .infoContainer {
   position: absolute;
@@ -261,9 +261,9 @@ ul.header li a {
   z-index: 10;
   color: white;
   user-select: none;
-  padding-top: 20%;
-  text-shadow: 0 1px 0 black;
-  font-size: 4vw;
+  padding-top: 15%;
+  text-shadow: 0 2px 0 black;
+  font-size: 3vw;
   margin-left: 5%;
 }
 .infoDesc {
@@ -271,7 +271,7 @@ ul.header li a {
   width: 50%;
   user-select: none;
   margin-left: 5%;
-  text-shadow: 0 1px 0 black;
+  text-shadow: 0 2px 0 black;
   height: auto;
   z-index: 10;
   font-size: 1.1vw;
@@ -318,4 +318,8 @@ ul.header li a {
 .billboardMoreInfo:hover {
   cursor: pointer;
   background: rgba(188, 188, 188, 0.2);
+}
+.ratingStar {
+  margin-left: 5%;
+  color: red;
 }
