@@ -4,8 +4,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {
   getGenres,
-  getPopularMovies,
-  getTrending,
   getBrowseData,
   getBillboardMovie,
 } from "../data/data";
@@ -19,8 +17,6 @@ import { Skeleton } from "@mui/material";
 import { FaPlay } from "react-icons/fa";
 
 export default function Browse() {
-  const [movies, setMovies] = useState([]);
-  const [trending, setTrend] = useState([]);
   const [genre, setGenre] = useState([]);
   const [diffData, setDiffData] = useState([]);
   const [billboardMovie, setBillboardMovie] = useState([]);
@@ -78,37 +74,14 @@ export default function Browse() {
             },
           ],
         };
-        const [data, data2, data3] = await getPopularMovies();
-        const [trend, trend2, trend3] = await getTrending();
         const genreGet = await getGenres();
         var billboardMovieGet = await getBillboardMovie();
         var browse = [];
-
-        // for (let i = 0; i < 20; i++) {
-        //   data.push(data2[i]);
-        //   if (data.length === 40) {
-        //     for (let e = 0; e < 2; e++) {
-        //       data.push(data3[e]);
-        //     }
-        //   }
-        // }
-
-        // for (let i = 0; i < 20; i++) {
-        //   trend.push(trend2[i]);
-        //   if (trend.length === 40) {
-        //     for (let e = 0; e < 2; e++) {
-        //       trend.push(trend3[e]);
-        //     }
-        //   }
-        // }
 
         for (let i = 0; i < 19; i++) {
           browse.push(genreGet.genres[random[i]]);
         }
         const genreMovies = await getBrowseData(browse);
-
-        data.push(settings);
-        trend.push(settings);
 
         for (let i = 0; i < genreMovies.length; i++) {
           genreMovies[i].push(settings);
@@ -116,8 +89,6 @@ export default function Browse() {
 
         setBillboardMovie(billboardMovieGet);
         setGenre(browse);
-        setMovies(data);
-        setTrend(trend);
         setDiffData(genreMovies);
       } catch (err) {
         console.error(err);
@@ -209,9 +180,7 @@ export default function Browse() {
                 </div>,
               ];
             })}
-            <div>
-              <h2>hello i am footer</h2>
-            </div>
+            <div>{/* footer goes here */}</div>
           </div>
         </div>
       </div>

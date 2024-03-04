@@ -5,6 +5,8 @@ import RightControl from "../slider-control/RightControl";
 import styled from "styled-components";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
 import { Skeleton } from "@mui/material";
 import { FaCirclePlay } from "react-icons/fa6";
 import { BsPlusCircle } from "react-icons/bs";
@@ -29,6 +31,18 @@ const StyledSlider = styled(Slider)`
   }
 `;
 
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "70%",
+  height: "fit-content",
+  borderRadius: "10px",
+  boxShadow: "0px 0px 5px 0px #000000",
+  backgroundColor: "#181818",
+};
+
 export default function Sliders(props) {
   const { data, index, diffData, updateData, checkLoad, genre } = props;
   const [mediaData, setMediaData] = useState(data);
@@ -39,6 +53,8 @@ export default function Sliders(props) {
   const [visibleLeftArrows, setVisibleLeftArrows] = useState(false);
   const [activeSlide, setActiveSlide] = useState(0);
   const [loaded, setLoaded] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [modalData, setModalData] = useState("");
   const slider = useRef(null);
   const sliceData = data.length - 1;
   const settings = data[sliceData];
@@ -122,13 +138,17 @@ export default function Sliders(props) {
     }
   };
 
+  const handleOpen = (data) => {
+    setOpen(true);
+    setModalData(data);
+    console.log(modalData);
+  };
+
+  const handleClose = () => setOpen(false);
+
   const imageLoad = () => {
     setLoaded(true);
     checkLoad();
-  };
-
-  const onClickFunction = () => {
-    console.log("hello button clicked!");
   };
 
   return (
@@ -165,17 +185,21 @@ export default function Sliders(props) {
               className="box img"
               src={`https://image.tmdb.org/t/p/w780${data.poster_path}`}
               alt={data.id}
-              onClick={() => onBoxClick(data)}
               onMouseOver={(e) => onHover(e.currentTarget)}
               onMouseLeave={() => onMouseLeave()}
               onLoad={imageLoad}
+              onClick={() => handleOpen(data)}
             />
             <div className="box text">
               <div class="icons">
-                <FaCirclePlay size={"10%"} className="playButton" />
-                <BsPlusCircle size={"10%"} className="addList" />
-                <BsHandThumbsUp size={"10%"} className="userRate" />
-                <IoIosArrowDropdown size={"10%"} className="moreInfo" />
+                <FaCirclePlay size={"1.5vw"} className="playButton" />
+                <BsPlusCircle size={"1.5vw"} className="addList" />
+                <BsHandThumbsUp size={"1.5vw"} className="userRate" />
+                <IoIosArrowDropdown
+                  size={"1.5vw"}
+                  className="moreInfo"
+                  onClick={() => handleOpen(data)}
+                />
               </div>
               <span class="match">
                 {Math.floor(data.vote_average * 10)}% User Score
@@ -201,6 +225,27 @@ export default function Sliders(props) {
         slideIndex={index - 1}
         rightArrowHover={(arrowState) => onHoverRight(arrowState)}
       />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        slotProps={{
+          backdrop: {
+            style: { backgroundColor: "rgba(0,0,0, 0.6)" },
+          },
+        }}
+      >
+        <Box sx={style}>
+          <img
+            className="modalImage"
+            src={`https://image.tmdb.org/t/p/w1280${modalData.backdrop_path}`}
+            alt={"backdropImage"}
+          />
+          <p className="modalInfo">{modalData.title}</p>
+          <p className="modalInfo">{modalData.overview}</p>
+        </Box>
+      </Modal>
     </div>
   );
 }

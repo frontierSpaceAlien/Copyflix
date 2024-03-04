@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   Route,
   NavLink,
@@ -10,11 +10,67 @@ import { faSearch, faBell } from "@fortawesome/free-solid-svg-icons";
 import Browse from "./pages/Browse";
 import TVShows from "./pages/TVShows";
 import logo from "./assets/logo/copyflix-logo.png";
+import styled from "styled-components";
+
+const Header = styled.ul`
+  position: sticky;
+  margin: 0;
+  display: flex;
+  padding: 0 2%;
+  align-items: center;
+  user-select: none;
+  height: 70px;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  padding: 10;
+  overflow: visible;
+  background: ${(props) =>
+    props.navColor
+      ? "black"
+      : "linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent)"};
+  list-style-type: none;
+  transition: background 200ms linear;
+  font-size: small;
+
+  li {
+    display: inline;
+    font-size: 0.8vw;
+    list-style-type: none;
+  }
+  li a {
+    color: lightgrey;
+    text-decoration: none;
+    padding: 0.7vw;
+    display: inline-block;
+  }
+`;
 
 const App = () => {
   const [searchBox, setSearchBox] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [navBackground, setNavBackground] = useState(false);
   const inputRef = useRef(null);
+  const navRef = useRef();
+  navRef.current = navBackground;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const visible = window.scrollY > 50;
+      if (visible) {
+        setNavBackground(true);
+      } else {
+        setNavBackground(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scorll", handleScroll);
+    };
+  });
+
+  console.log(navRef.current);
 
   const toggleSearchBox = () => {
     if (!searchBox && inputRef.current) {
@@ -26,7 +82,7 @@ const App = () => {
   return (
     <Router basename="/Browse">
       <div>
-        <ul className="header">
+        <Header navColor={navRef.current}>
           <li>
             <NavLink exact to="/">
               <a href="d" className="logo">
@@ -76,7 +132,7 @@ const App = () => {
               </span>
             </div>
           </div>
-        </ul>
+        </Header>
         <div className="content">
           <Routes>
             <Route exact path="/" element={<Browse />} />

@@ -18,38 +18,12 @@ h1,
 h2,
 p,
 ul,
-li,
 input {
   font-family: "NetflixSans";
 }
 .content {
   margin: 0;
   width: auto;
-}
-ul.header {
-  position: sticky;
-  margin: 0;
-  display: flex;
-  background-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.7) 10%,
-    rgba(0, 0, 0, 0)
-  );
-  padding: 0 2%;
-  -moz-opacity: 0.8;
-  -khtml-opacity: 0.8;
-  opacity: 0.8;
-  align-items: center;
-  height: 70px;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  padding: 10;
-  list-style: none;
-  overflow: visible;
-  background-color: #111;
-  font-size: small;
 }
 .logo {
   display: flex;
@@ -104,25 +78,6 @@ ul.header {
   padding: 7px 14px 7px 7px;
   opacity: 1;
 }
-
-ul.header li {
-  display: inline;
-  list-style-type: none;
-  margin: 0px;
-  padding: 0px;
-}
-ul.header li a {
-  color: lightgrey;
-  text-decoration: none;
-  padding: 10px;
-  display: inline-block;
-}
-.header-options {
-  display: flex;
-  align-items: center;
-  flex: 1;
-  justify-content: flex-end;
-}
 .icon {
   padding: 10px;
   font-size: 1.3rem;
@@ -171,7 +126,7 @@ ul.header li a {
   color: #fff;
   width: 98%;
   height: fit-content;
-  padding: 5%;
+  padding: 3.5%;
   opacity: 0;
   box-sizing: border-box;
   transition: box-shadow 500ms, transform 200ms ease-in-out, visibility 0s 0.1s,
@@ -186,6 +141,7 @@ ul.header li a {
 }
 .icons {
   display: flex;
+  padding-bottom: 1vh;
 }
 .playButton {
   margin-right: 4%;
@@ -217,28 +173,28 @@ ul.header li a {
   margin-left: auto;
 }
 .rating {
-  border: 0.1px solid white;
+  border: 1px solid white;
   font-family: "Netflixsans";
-  padding: 1% 2%;
-  font-size: 60%;
+  padding: 0.2vh;
+  font-size: 0.8vh;
 }
 .match {
   font-family: "Netflixsans";
   color: #43c662;
   font-weight: bold;
-  font-size: 65%;
-  padding-right: 4%;
+  font-size: 0.8vh;
+  padding-right: 1vh;
 }
 .releaseDate {
   color: #bcbcaa;
   font-family: "Netflixsans";
   font-weight: bold;
   padding-left: 3%;
-  font-size: 70%;
+  font-size: 0.8vh;
 }
 .genres {
   font-weight: bold;
-  font-size: 70%;
+  font-size: 0.8vh;
 }
 .browseContainer {
   position: absolute;
@@ -249,7 +205,8 @@ ul.header li a {
 .billboard {
   width: 100%;
   z-index: 0;
-  mask: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 30%, transparent 100%);
+  mask: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 30%, transparent 100%),
+    linear-gradient(to left, rgba(0, 0, 0, 0.6) 20%, transparent 100%);
 }
 .infoContainer {
   position: absolute;
@@ -322,4 +279,19 @@ ul.header li a {
 .ratingStar {
   margin-left: 5%;
   color: red;
+}
+.modalInfo {
+  color: white;
+  padding-left: 4%;
+  user-select: none;
+}
+.modalImage {
+  max-width: 100%;
+  pointer-events: none;
+  height: auto;
+  mask: linear-gradient(
+    to bottom,
+    rgba(24, 24, 24, 0.65) 70%,
+    transparent 100%
+  );
 }
