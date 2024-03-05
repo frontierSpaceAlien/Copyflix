@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sliders from "../components/slider/slider";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {
-  getGenres,
-  getBrowseData,
-  getBillboardMovie,
-} from "../data/data";
+import { getGenres, getBrowseData, getBillboardMovie } from "../data/data";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Rating from "react-rating";
@@ -130,7 +126,9 @@ export default function Browse() {
             <Rating
               className="ratingStar"
               readonly={true}
-              initialRating={billboardMovie.vote_average / 2}
+              initialRating={
+                Math.round((billboardMovie.vote_average / 2) * 10) / 10
+              }
               emptySymbol={<FaRegStar size={"1.3vw"} />}
               fullSymbol={<FaStar size={"1.3vw"} />}
             />

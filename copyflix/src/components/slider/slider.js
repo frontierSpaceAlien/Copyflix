@@ -5,9 +5,9 @@ import RightControl from "../slider-control/RightControl";
 import styled from "styled-components";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { Skeleton } from "@mui/material";
+import { FaPlay } from "react-icons/fa";
 import { FaCirclePlay } from "react-icons/fa6";
 import { BsPlusCircle } from "react-icons/bs";
 import { BsHandThumbsUp } from "react-icons/bs";
@@ -20,6 +20,7 @@ const StyledSlider = styled(Slider)`
   .slick-slide {
     z-index: 10000;
     box-sizing: border-box;
+    outline: none;
     transition: box-shadow 500ms, transform 200ms ease-in-out;
     user-select: none !important;
     &:hover {
@@ -36,11 +37,14 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
+  maxWidth: "100%",
   width: "70%",
   height: "fit-content",
+  userSelect: "none",
   borderRadius: "10px",
   boxShadow: "0px 0px 5px 0px #000000",
   backgroundColor: "#181818",
+  outline: "none",
 };
 
 export default function Sliders(props) {
@@ -70,10 +74,6 @@ export default function Sliders(props) {
     updateData(clonedData);
     setSliderState(clonedData[i][sliceData].infinite);
     setControlVisible(infi);
-  }
-
-  function onBoxClick(id) {
-    console.log("Box Clicked! - " + id);
   }
 
   function onMouseLeave() {
@@ -152,7 +152,13 @@ export default function Sliders(props) {
   };
 
   return (
-    <div style={{ position: "relative" }}>
+    <div
+      style={{
+        position: "relative",
+        userSelect: "none",
+        outline: "none",
+      }}
+    >
       <Grid container wrap="nowrap">
         {!loaded &&
           Array.from(new Array(6)).map((item, index) => (
@@ -226,10 +232,9 @@ export default function Sliders(props) {
         rightArrowHover={(arrowState) => onHoverRight(arrowState)}
       />
       <Modal
+        style={{ overflow: "scroll" }}
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
         slotProps={{
           backdrop: {
             style: { backgroundColor: "rgba(0,0,0, 0.6)" },
@@ -242,8 +247,76 @@ export default function Sliders(props) {
             src={`https://image.tmdb.org/t/p/w1280${modalData.backdrop_path}`}
             alt={"backdropImage"}
           />
-          <p className="modalInfo">{modalData.title}</p>
-          <p className="modalInfo">{modalData.overview}</p>
+          <p className="modalTitle">{modalData.title}</p>
+          <div className="modalButtons">
+            <FaPlay
+              style={{ marginRight: "6%", marginLeft: "20%" }}
+              size={"1.3vw"}
+            />
+            <p>Play</p>
+          </div>
+          <div className="modalButtonExtra">
+            <BsPlusCircle size={"2.5vw"} className="addList" />
+            <BsHandThumbsUp size={"2.5vw"} className="userRate" />
+          </div>
+          <div className="modalMediaInfo">
+            <div className="modalRatings">
+              <p className="modalInfo" style={{ color: "#43c662" }}>
+                {Math.round(modalData.vote_average * 10) / 10}/10
+              </p>
+              <p className="modalInfo" style={{ color: "#A3A3A3" }}>
+                {modalData.original_language === undefined
+                  ? ""
+                  : modalData.original_language.toUpperCase()}
+              </p>
+              <p className="modalInfo" style={{ color: "#A3A3A3" }}>
+                {modalData.release_date}
+              </p>
+            </div>
+            <div className="modalInfoContainer">
+              <p className="modalInfo">{modalData.overview}</p>
+            </div>
+            <div className="modalCastContainer">
+              <p className="modalCast" style={{ color: "#676767" }}>
+                Vote Count:
+              </p>
+              <p className="voteCount">{modalData.vote_count}</p>
+              <p className="modalCast" style={{ color: "#676767" }}>
+                Genres:
+              </p>
+              <p className="genreModal">
+                {modalData.genre_ids === undefined
+                  ? ""
+                  : modalData.genre_ids.join(", ")}
+              </p>
+              <p className="modalCast" style={{ color: "#676767" }}>
+                Popularity Score :
+              </p>
+              <p className="popularityScore">
+                {Math.floor(modalData.popularity)}
+              </p>
+            </div>
+          </div>
+          <p
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              marginLeft: "4%",
+              fontSize: "1.5vw",
+            }}
+          >
+            More like this
+          </p>
+          <p
+            style={{
+              color: "white",
+              fontWeight: "bold",
+              marginLeft: "4%",
+              fontSize: "1vw",
+            }}
+          >
+            i make this section later
+          </p>
         </Box>
       </Modal>
     </div>

@@ -41,8 +41,6 @@ export async function getBrowseData(genreID) {
     data = await res.json();
     browseData.push(data.results);
 
-    console.log(browseData);
-
     for (let i = 0; i < browseData.length; i++) {
       for (let e = 0; e < browseData[i].length - 1; e++) {
         for (let f = 0; f < browseData[i][e].genre_ids.length; f++) {
