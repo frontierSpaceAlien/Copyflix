@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faBell } from "@fortawesome/free-solid-svg-icons";
 import Browse from "./pages/Browse";
 import TVShows from "./pages/TVShows";
+import Movies from "./pages/Movies";
+import NewPopular from "./pages/NewPopular";
 import logo from "./assets/logo/copyflix-logo.png";
 import styled from "styled-components";
 
@@ -19,7 +21,6 @@ const Header = styled.ul`
   padding: 0 2%;
   align-items: center;
   user-select: none;
-  height: 70px;
   z-index: 100;
   top: 0;
   left: 0;
@@ -36,7 +37,7 @@ const Header = styled.ul`
 
   li {
     display: inline;
-    font-size: 0.8vw;
+    font-size: 0.7vw;
     list-style-type: none;
   }
   li a {
@@ -69,8 +70,6 @@ const App = () => {
       window.removeEventListener("scorll", handleScroll);
     };
   });
-
-  console.log(navRef.current);
 
   const toggleSearchBox = () => {
     if (!searchBox && inputRef.current) {
@@ -137,6 +136,8 @@ const App = () => {
           <Routes>
             <Route exact path="/" element={<Browse />} />
             <Route path="/TVShows" element={<TVShows />} />
+            <Route path="/Movies" element={<Movies />} />
+            <Route path="/NewPopular" element={<NewPopular />} />
           </Routes>
         </div>
       </div>

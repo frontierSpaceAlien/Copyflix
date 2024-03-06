@@ -24,7 +24,7 @@ const StyledSlider = styled(Slider)`
     transition: box-shadow 500ms, transform 200ms ease-in-out;
     user-select: none !important;
     &:hover {
-      transform: scale(1.4) translateY(-30%)
+      transform: scale(1.4) translateY(-15%)
         translateX(${(props) => (props.sliderTranslateX ? xAxis : xAxis)});
       transition-delay: 400ms;
       user-select: none !important;
@@ -69,11 +69,14 @@ export default function Sliders(props) {
   // It then updates the original data with new data. This prevents any state bugs since
   // all sliders share the same states.
   function onSlideChange(infi, i) {
+    console.log(i);
     const clonedData = JSON.parse(JSON.stringify(diffData));
+    console.log(clonedData);
     clonedData[i][sliceData].infinite = infi;
     updateData(clonedData);
     setSliderState(clonedData[i][sliceData].infinite);
     setControlVisible(infi);
+    console.log(i);
   }
 
   function onMouseLeave() {
@@ -102,16 +105,11 @@ export default function Sliders(props) {
     for (let index = 0; index < data.length - 1; index++) {
       if (Number(id.alt) === data[index].id) {
         boxIndex = index + 1;
-        console.log(index);
 
         // Calculates where the first and last index on each slide and adjusts the css accordingly
         // also determines if it is on the last slide.
         if (activeSlide + 6 > sliceData) {
           findLastSlideAmount = Math.abs(activeSlide - sliceData);
-          console.log(
-            "index if adjusting for uneven: " +
-              ((index - findLastSlideAmount) % 6)
-          );
           if ((index - findLastSlideAmount) % 6 === 0) {
             setSliderTranslateX(true);
             xAxis = "14%";
@@ -141,7 +139,6 @@ export default function Sliders(props) {
   const handleOpen = (data) => {
     setOpen(true);
     setModalData(data);
-    console.log(modalData);
   };
 
   const handleClose = () => setOpen(false);
@@ -228,7 +225,7 @@ export default function Sliders(props) {
         slider={slider}
         slideChange={(infi, i) => onSlideChange(infi, i)}
         onHover={visibleRightArrows}
-        slideIndex={index - 1}
+        slideIndex={index}
         rightArrowHover={(arrowState) => onHoverRight(arrowState)}
       />
       <Modal

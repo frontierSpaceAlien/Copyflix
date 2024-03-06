@@ -32,7 +32,7 @@ input {
 }
 .logo img {
   object-fit: contain;
-  height: 30px;
+  height: 40px;
 }
 .searchBox {
   display: flex;
@@ -101,7 +101,7 @@ input {
   overflow: visible !important;
 }
 .slick-list:hover {
-  z-index: 10;
+  z-index: 15;
 }
 .gap {
   padding-top: 1%;

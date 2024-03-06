@@ -13,6 +13,19 @@ export async function getGenres() {
   }
 }
 
+export async function getTVGenre() {
+  try {
+    const resGenre = await fetch(
+      `https://api.themoviedb.org/3/genre/tv/list?language=en&api_key=${apiKey}`
+    );
+    const dataGenre = await resGenre.json();
+
+    return dataGenre;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 export async function getBillboardMovie() {
   try {
     const randPage = Math.floor(Math.random() * (50 - 1)) + 1;
@@ -21,8 +34,6 @@ export async function getBillboardMovie() {
     );
     const latestID = await resLatest.json();
     const rand = Math.floor(Math.random() * (20 - 0)) + 0;
-
-    console.log(latestID);
 
     return latestID.results[rand];
   } catch (err) {
@@ -55,4 +66,177 @@ export async function getBrowseData(genreID) {
   }
 
   return browseData;
+}
+
+export async function getBillboardTV() {
+  try {
+    const randPage = Math.floor(Math.random() * (50 - 1)) + 1;
+    const resLatest = await fetch(
+      `https://api.themoviedb.org/3/tv/popular?language=en-US&page=${randPage}&api_key=${apiKey}`
+    );
+    const latestID = await resLatest.json();
+    const rand = Math.floor(Math.random() * (20 - 0)) + 0;
+
+    return latestID.results[rand];
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getTVGenres() {
+  try {
+    const resGenre = await fetch(
+      `https://api.themoviedb.org/3/genre/tv/list?language=en&api_key=${apiKey}`
+    );
+    const dataGenre = await resGenre.json();
+
+    return dataGenre;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getTVShows(genreID) {
+  var res = null;
+  var data = null;
+  var tvData = [];
+  for (var i = 0; i < genreID.length; i++) {
+    res = await fetch(
+      `https://api.themoviedb.org/3/discover/tv?language=en-US&api_key=${apiKey}&page=1&with_genres=${genreID[i].id}`
+    );
+    data = await res.json();
+    tvData.push(data.results);
+
+    for (let i = 0; i < tvData.length; i++) {
+      for (let e = 0; e < tvData[i].length - 1; e++) {
+        for (let f = 0; f < tvData[i][e].genre_ids.length; f++) {
+          for (let t = 0; t < genreID.length; t++) {
+            if (genreID[t].id === tvData[i][e].genre_ids[f]) {
+              tvData[i][e].genre_ids[f] = genreID[t].name;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  return tvData;
+}
+
+export async function getPopularMovies(genreID) {
+  try {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/movie/popular?language=en-US&page=1&api_key=${apiKey}`
+    );
+    const data = await res.json();
+
+    for (let i = 0; i < data.results.length; i++) {
+      for (let e = 0; e < data.results[i].genre_ids.length; e++) {
+        for (let t = 0; t < genreID.genres.length; t++) {
+          if (data.results[i].genre_ids[e] === genreID.genres[t].id) {
+            data.results[i].genre_ids[e] = genreID.genres[t].name;
+          }
+        }
+      }
+    }
+
+    return data.results;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getNowPlayingMovies(genreID) {
+  try {
+    const res = await fetch(
+      `https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=2&api_key=${apiKey}`
+    );
+    const data = await res.json();
+
+    for (let i = 0; i < data.results.length; i++) {
+      for (let e = 0; e < data.results[i].genre_ids.length; e++) {
+        for (let t = 0; t < genreID.genres.length; t++) {
+          if (data.results[i].genre_ids[e] === genreID.genres[t].id) {
+            data.results[i].genre_ids[e] = genreID.genres[t].name;
+          }
+        }
+      }
+    }
+
+    return data.results;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getUpcomingMovies(genreID) {
+  try {
+    const today = new Date().toISOString().split("T");
+    const res = await fetch(
+      `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&primary_release_date.gte=${today[0]}&sort_by=popularity.desc&api_key=${apiKey}`
+    );
+    const data = await res.json();
+
+    for (let i = 0; i < data.results.length; i++) {
+      for (let e = 0; e < data.results[i].genre_ids.length; e++) {
+        for (let t = 0; t < genreID.genres.length; t++) {
+          if (data.results[i].genre_ids[e] === genreID.genres[t].id) {
+            data.results[i].genre_ids[e] = genreID.genres[t].name;
+          }
+        }
+      }
+    }
+
+    return data.results;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getPopularTV(genreID) {
+  try {
+    const today = new Date().toISOString().split("T");
+    const res = await fetch(
+      `https://api.themoviedb.org/3/discover/tv?air_date.lte=${today[0]}&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&with_original_language=en&without_genres=10767%2C%2010763&api_key=${apiKey}`
+    );
+    const data = await res.json();
+
+    for (let i = 0; i < data.results.length; i++) {
+      for (let e = 0; e < data.results[i].genre_ids.length; e++) {
+        for (let t = 0; t < genreID.genres.length; t++) {
+          if (data.results[i].genre_ids[e] === genreID.genres[t].id) {
+            data.results[i].genre_ids[e] = genreID.genres[t].name;
+          }
+        }
+      }
+    }
+
+    return data.results;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getAiringToday(genreID) {
+  try {
+    const today = new Date().toISOString().split("T");
+    const res = await fetch(
+      `https://api.themoviedb.org/3/discover/tv?air_date.gte=${today[0]}&air_date.lte=${today[0]}&include_adult=false&include_null_first_air_dates=false&language=en-US&page=1&sort_by=popularity.desc&timezone=Pacific%2FAuckland&with_original_language=en&without_genres=10767%2C10763&api_key=${apiKey}`
+    );
+    const data = await res.json();
+
+    for (let i = 0; i < data.results.length; i++) {
+      for (let e = 0; e < data.results[i].genre_ids.length; e++) {
+        for (let t = 0; t < genreID.genres.length; t++) {
+          if (data.results[i].genre_ids[e] === genreID.genres[t].id) {
+            data.results[i].genre_ids[e] = genreID.genres[t].name;
+          }
+        }
+      }
+    }
+
+    return data.results;
+  } catch (err) {
+    console.log(err);
+  }
 }

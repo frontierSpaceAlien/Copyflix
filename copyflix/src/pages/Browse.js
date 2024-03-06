@@ -156,7 +156,7 @@ export default function Browse() {
           </div>
           <img
             className="billboard"
-            src={`https://image.tmdb.org/t/p/original${billboardMovie.backdrop_path}`}
+            src={`https://image.tmdb.org/t/p/w1280${billboardMovie.backdrop_path}`}
             alt="billboard"
           />
         </div>
@@ -166,10 +166,10 @@ export default function Browse() {
               return [
                 <div>
                   <div className="gap" />
-                  <h2 className="sliderText">{genre[i++].name} Movies</h2>
+                  <h2 className="sliderText">{genre[i].name} Movies</h2>
                   <Sliders
                     data={movie}
-                    index={i++}
+                    index={i}
                     diffData={diffData}
                     updateData={(newData) => updateData(newData)}
                     checkLoad={loadedDiv}

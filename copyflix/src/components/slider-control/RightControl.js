@@ -30,7 +30,7 @@ const RightButton = styled.button`
 
   cursor: pointer;
   color: #ffffff;
-  z-index: 10;
+  z-index: 15;
 
   &:hover {
     opacity: 60%;
