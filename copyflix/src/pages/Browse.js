@@ -2,10 +2,16 @@ import React, { useState, useEffect } from "react";
 import Sliders from "../components/slider/slider";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { getGenres, getBrowseData, getBillboardMovie } from "../data/data";
+import {
+  getGenres,
+  getBrowseData,
+  getBillboardMovie,
+  getTrailers,
+} from "../data/data";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Rating from "react-rating";
+import Modal from "../components/modal/modalMenu";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
@@ -17,6 +23,10 @@ export default function Browse() {
   const [diffData, setDiffData] = useState([]);
   const [billboardMovie, setBillboardMovie] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [modalData, setModalData] = useState("");
+  const [video, setVideo] = useState([]);
+
   let rand = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18];
 
   function shuffle(o) {
@@ -101,6 +111,23 @@ export default function Browse() {
     setLoaded(true);
   }
 
+  const getVideo = async (e) => {
+    try {
+      const video = await getTrailers(e);
+
+      setVideo(video);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleOpen = (data) => {
+    setOpen(true);
+    setModalData(data);
+  };
+
+  const handleClose = () => setOpen(false);
+
   return (
     <div>
       <Grid container wrap="nowrap">
@@ -141,7 +168,13 @@ export default function Browse() {
                 />
                 <p>Play</p>
               </div>
-              <div className="billboardMoreInfo">
+              <div
+                className="billboardMoreInfo"
+                onClick={() => {
+                  handleOpen(billboardMovie);
+                  getVideo(billboardMovie.id);
+                }}
+              >
                 <AiOutlineInfoCircle
                   style={{
                     color: "white",
@@ -182,6 +215,7 @@ export default function Browse() {
           </div>
         </div>
       </div>
+      <Modal open={open} close={handleClose} data={modalData} video={video} />
     </div>
   );
 }

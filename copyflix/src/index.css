@@ -315,7 +315,6 @@ input {
   margin-left: 4%;
   background-color: white;
   width: 10%;
-  height: 5%;
   user-select: none;
   color: black;
   border-radius: 4px;
@@ -332,10 +331,9 @@ input {
   align-items: center;
   top: 0;
   z-index: 1;
-  margin-top: 46%;
+  margin-top: 46.8%;
   margin-left: 15%;
   width: 10%;
-  height: 5%;
   user-select: none;
   color: black;
   border-radius: 4px;
@@ -350,7 +348,7 @@ input {
 }
 .modalInfoContainer {
   display: flex;
-  grid-area: 3 / 1 / 6 / 4;
+  grid-area: 2 / 1 / 6 / 4;
   width: 100%;
 }
 .modalInfo {
@@ -405,4 +403,29 @@ input {
   padding-top: 7.7%;
   padding-left: 11.1%;
   font-size: 0.7vw;
+}
+.modalVideo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  font-weight: bold;
+  margin-left: 4%;
+}
+.thumbnailContainer {
+  display: flex;
+  margin-right: 1%;
+  margin-top: 1%;
+  transition: box-shadow 500ms, transform 100ms ease-in-out;
+}
+.thumbnailContainer .thumbnail {
+  cursor: pointer;
+  user-select: none;
+  border-radius: 7px;
+}
+.thumbnailContainer:hover .thumbnail {
+  transform: scale(1.1);
+  transition-delay: 400ms;
 }

@@ -240,3 +240,25 @@ export async function getAiringToday(genreID) {
     console.log(err);
   }
 }
+
+export async function getTrailers(id) {
+  try {
+    var res = null;
+    var data = [];
+    var trailers = [];
+    res = await fetch(
+      `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US&api_key=${apiKey}`
+    );
+    data = await res.json();
+
+    for (let i = 0; i < data.results.length; i++) {
+      if (data.results[i].type === "Trailer") {
+        trailers.push(data.results[i]);
+      }
+    }
+
+    return trailers;
+  } catch (err) {
+    console.log(err);
+  }
+}
