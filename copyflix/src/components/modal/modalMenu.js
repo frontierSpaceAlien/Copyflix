@@ -8,7 +8,7 @@ import { BsHandThumbsUp } from "react-icons/bs";
 import { FaCirclePlay } from "react-icons/fa6";
 
 export default function ModalMenu(props) {
-  const { open, close, data, video, tv } = props;
+  const { open, close, data, video } = props;
 
   const style = {
     position: "absolute",

@@ -259,8 +259,6 @@ export async function getTrailers(id) {
       }
     }
 
-    console.log(trailers);
-
     return trailers;
   } catch (err) {
     console.log(err);
@@ -276,6 +274,8 @@ export async function getTvVideos(id) {
       `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US&api_key=${apiKey}`
     );
     data = await res.json();
+
+    console.log(data.results);
 
     if (data.results !== undefined) {
       for (let i = 0; i < data.results.length; i++) {

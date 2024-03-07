@@ -136,11 +136,16 @@ export default function Sliders(props) {
 
   const getVideo = async (e) => {
     try {
-      const video = await getTrailers(e);
+      const videoGet = await getTrailers(e);
       const tvVideo = await getTvVideos(e);
 
-      setVideo(video);
-      setTvVideo(tvVideo);
+      setVideo([]);
+      
+      if (videoGet.length > 0) {
+        setVideo(video);
+      } else if (tvVideo.length > 0) {
+        setVideo(tvVideo);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -229,7 +234,7 @@ export default function Sliders(props) {
         slideIndex={index}
         rightArrowHover={(arrowState) => onHoverRight(arrowState)}
       />
-      <Modal open={open} close={handleClose} data={modalData} video={video} tv={tvVideo} />
+      <Modal open={open} close={handleClose} data={modalData} video={video} />
     </div>
   );
 }
