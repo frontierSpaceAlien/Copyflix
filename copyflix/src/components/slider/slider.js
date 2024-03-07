@@ -140,9 +140,10 @@ export default function Sliders(props) {
       const tvVideo = await getTvVideos(e);
 
       setVideo([]);
-      
+      console.log(videoGet);
+
       if (videoGet.length > 0) {
-        setVideo(video);
+        setVideo(videoGet);
       } else if (tvVideo.length > 0) {
         setVideo(tvVideo);
       }

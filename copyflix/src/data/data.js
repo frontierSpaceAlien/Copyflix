@@ -250,6 +250,7 @@ export async function getTrailers(id) {
       `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US&api_key=${apiKey}`
     );
     data = await res.json();
+    console.log(data.results);
 
     if (data.results !== undefined) {
       for (let i = 0; i < data.results.length; i++) {
