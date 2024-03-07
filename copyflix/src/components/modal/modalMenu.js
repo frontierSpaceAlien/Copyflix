@@ -8,8 +8,7 @@ import { BsHandThumbsUp } from "react-icons/bs";
 import { FaCirclePlay } from "react-icons/fa6";
 
 export default function ModalMenu(props) {
-  const { open, close, data, video } = props;
-  const [isHovering, setIsHovering] = useState(false);
+  const { open, close, data, video, tv } = props;
 
   const style = {
     position: "absolute",
@@ -24,10 +23,6 @@ export default function ModalMenu(props) {
     overflow: "hidden",
     backgroundColor: "#181818",
     outline: "none",
-  };
-
-  const onHover = (state) => {
-    setIsHovering(state);
   };
 
   return (
@@ -104,7 +99,7 @@ export default function ModalMenu(props) {
           Trailer(s)
         </p>
         <div className="modalVideo">
-          {video.length === 0 ? (
+          {video.length < 1 || video === undefined ? (
             <p
               style={{
                 color: "white",

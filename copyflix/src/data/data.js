@@ -251,9 +251,37 @@ export async function getTrailers(id) {
     );
     data = await res.json();
 
-    for (let i = 0; i < data.results.length; i++) {
-      if (data.results[i].type === "Trailer") {
-        trailers.push(data.results[i]);
+    if (data.results !== undefined) {
+      for (let i = 0; i < data.results.length; i++) {
+        if (data.results[i].type === "Trailer") {
+          trailers.push(data.results[i]);
+        }
+      }
+    }
+
+    console.log(trailers);
+
+    return trailers;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function getTvVideos(id) {
+  try {
+    var res = null;
+    var data = [];
+    var trailers = [];
+    res = await fetch(
+      `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US&api_key=${apiKey}`
+    );
+    data = await res.json();
+
+    if (data.results !== undefined) {
+      for (let i = 0; i < data.results.length; i++) {
+        if (data.results[i].type === "Trailer") {
+          trailers.push(data.results[i]);
+        }
       }
     }
 

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Modal from "../modal/modalMenu";
-import { getTrailers } from "../../data/data";
+import { getTrailers, getTvVideos } from "../../data/data";
 
 import { Skeleton } from "@mui/material";
 import { FaCirclePlay } from "react-icons/fa6";
@@ -46,6 +46,7 @@ export default function Sliders(props) {
   const [open, setOpen] = React.useState(false);
   const [modalData, setModalData] = useState("");
   const [video, setVideo] = useState([]);
+  const [tvVideo, setTvVideo] = useState([]);
   const slider = useRef(null);
   const sliceData = data.length - 1;
   const settings = data[sliceData];
@@ -136,8 +137,10 @@ export default function Sliders(props) {
   const getVideo = async (e) => {
     try {
       const video = await getTrailers(e);
+      const tvVideo = await getTvVideos(e);
 
       setVideo(video);
+      setTvVideo(tvVideo);
     } catch (err) {
       console.error(err);
     }
@@ -226,7 +229,7 @@ export default function Sliders(props) {
         slideIndex={index}
         rightArrowHover={(arrowState) => onHoverRight(arrowState)}
       />
-      <Modal open={open} close={handleClose} data={modalData} video={video} />
+      <Modal open={open} close={handleClose} data={modalData} video={video} tv={tvVideo} />
     </div>
   );
 }
