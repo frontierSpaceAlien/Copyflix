@@ -46,7 +46,6 @@ export default function Sliders(props) {
   const [open, setOpen] = React.useState(false);
   const [modalData, setModalData] = useState("");
   const [video, setVideo] = useState([]);
-  const [tvVideo, setTvVideo] = useState([]);
   const slider = useRef(null);
   const sliceData = data.length - 1;
   const settings = data[sliceData];
@@ -136,17 +135,22 @@ export default function Sliders(props) {
 
   const getVideo = async (e) => {
     try {
-      const videoGet = await getTrailers(e);
-      const tvVideo = await getTvVideos(e);
-
       setVideo([]);
-      console.log(videoGet);
-
-      if (videoGet.length > 0) {
-        setVideo(videoGet);
-      } else if (tvVideo.length > 0) {
+      var tvVideo = null;
+      var videoGet = null;
+      console.log(e.first_air_date);
+      if (e.first_air_date !== undefined) {
+        console.log("in here");
+        tvVideo = await getTvVideos(e.id);
         setVideo(tvVideo);
+      } else {
+        videoGet = await getTrailers(e.id);
+        setVideo(videoGet);
       }
+
+      console.log(e);
+      console.log(videoGet);
+      console.log(tvVideo);
     } catch (err) {
       console.error(err);
     }
@@ -197,7 +201,7 @@ export default function Sliders(props) {
               onLoad={imageLoad}
               onClick={() => {
                 handleOpen(data);
-                getVideo(data.id);
+                getVideo(data);
               }}
             />
             <div className="box text">

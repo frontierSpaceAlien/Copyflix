@@ -81,7 +81,7 @@ export default function Browse() {
           ],
         };
         const genreGet = await getGenres();
-        var billboardMovieGet = await getBillboardMovie();
+        var billboardMovieGet = await getBillboardMovie(genreGet);
         var browse = [];
 
         for (let i = 0; i < 19; i++) {

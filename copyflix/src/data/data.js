@@ -26,7 +26,7 @@ export async function getTVGenre() {
   }
 }
 
-export async function getBillboardMovie() {
+export async function getBillboardMovie(genres) {
   try {
     const randPage = Math.floor(Math.random() * (50 - 1)) + 1;
     const resLatest = await fetch(
@@ -34,6 +34,14 @@ export async function getBillboardMovie() {
     );
     const latestID = await resLatest.json();
     const rand = Math.floor(Math.random() * (20 - 0)) + 0;
+
+    for (var i = 0; i < genres.genres.length; i++) {
+      for (var e = 0; e < latestID.results[rand].genre_ids.length; e++) {
+        if (latestID.results[rand].genre_ids[e] === genres.genres[i].id) {
+          latestID.results[rand].genre_ids[e] = genres.genres[i].name;
+        }
+      }
+    }
 
     return latestID.results[rand];
   } catch (err) {
@@ -201,6 +209,8 @@ export async function getPopularTV(genreID) {
     );
     const data = await res.json();
 
+    console.log(data.results);
+
     for (let i = 0; i < data.results.length; i++) {
       for (let e = 0; e < data.results[i].genre_ids.length; e++) {
         for (let t = 0; t < genreID.genres.length; t++) {
@@ -250,7 +260,6 @@ export async function getTrailers(id) {
       `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US&api_key=${apiKey}`
     );
     data = await res.json();
-    console.log(data.results);
 
     if (data.results !== undefined) {
       for (let i = 0; i < data.results.length; i++) {
@@ -275,8 +284,6 @@ export async function getTvVideos(id) {
       `https://api.themoviedb.org/3/tv/${id}/videos?language=en-US&api_key=${apiKey}`
     );
     data = await res.json();
-
-    console.log(data.results);
 
     if (data.results !== undefined) {
       for (let i = 0; i < data.results.length; i++) {

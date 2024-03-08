@@ -416,16 +416,32 @@ input {
 }
 .thumbnailContainer {
   display: flex;
+  box-shadow: 0px 0px 10px 0px #000000;
+  position: relative;
   margin-right: 1%;
   margin-top: 1%;
-  transition: box-shadow 500ms, transform 100ms ease-in-out;
-}
-.thumbnailContainer .thumbnail {
   cursor: pointer;
-  user-select: none;
-  border-radius: 7px;
+  transition: box-shadow 500ms, transform 300ms ease-in-out;
 }
-.thumbnailContainer:hover .thumbnail {
+.thumbnailImage {
+  width: 20vw;
+  border-radius: 3%;
+}
+.thumbnailContainer:hover {
+  z-index: 100;
   transform: scale(1.1);
   transition-delay: 400ms;
+}
+.play {
+  position: absolute;
+  display: block;
+  top: 30%;
+  width: 3vw;
+  color: white;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+}
+.play:hover {
+  color: rgba(188, 188, 188, 0.9);
 }
