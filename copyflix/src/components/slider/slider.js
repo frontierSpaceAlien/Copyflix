@@ -5,9 +5,10 @@ import RightControl from "../slider-control/RightControl";
 import styled from "styled-components";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import Modal from "../modal/modalMenu";
+import ReactPlayer from "react-player";
+import ModalMenu from "../modal/modalMenu";
+import Modal from "@mui/material/Modal";
 import { getTrailers, getTvVideos } from "../../data/data";
-
 import { Skeleton } from "@mui/material";
 import { FaCirclePlay } from "react-icons/fa6";
 import { BsPlusCircle } from "react-icons/bs";
@@ -32,7 +33,6 @@ const StyledSlider = styled(Slider)`
     }
   }
 `;
-
 export default function Sliders(props) {
   const { data, index, diffData, updateData, checkLoad, genre } = props;
   const [mediaData, setMediaData] = useState(data);
@@ -135,22 +135,16 @@ export default function Sliders(props) {
 
   const getVideo = async (e) => {
     try {
-      setVideo([]);
       var tvVideo = null;
       var videoGet = null;
-      console.log(e.first_air_date);
+      setVideo([]);
       if (e.first_air_date !== undefined) {
-        console.log("in here");
         tvVideo = await getTvVideos(e.id);
         setVideo(tvVideo);
       } else {
         videoGet = await getTrailers(e.id);
         setVideo(videoGet);
       }
-
-      console.log(e);
-      console.log(videoGet);
-      console.log(tvVideo);
     } catch (err) {
       console.error(err);
     }
@@ -239,7 +233,12 @@ export default function Sliders(props) {
         slideIndex={index}
         rightArrowHover={(arrowState) => onHoverRight(arrowState)}
       />
-      <Modal open={open} close={handleClose} data={modalData} video={video} />
+      <ModalMenu
+        open={open}
+        close={handleClose}
+        data={modalData}
+        video={video}
+      />
     </div>
   );
 }

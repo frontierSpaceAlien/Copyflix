@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faBell } from "@fortawesome/free-solid-svg-icons";
+import { FaGithub } from "react-icons/fa6";
 import Browse from "./pages/Browse";
 import TVShows from "./pages/TVShows";
 import Movies from "./pages/Movies";
@@ -129,6 +130,14 @@ const App = () => {
               <span className="icon">
                 <FontAwesomeIcon icon={faBell} />
               </span>
+            </div>
+            <div>
+              <a
+                className="gitIcon"
+                href="https://github.com/frontierSpaceAlien/Copyflix"
+              >
+                <FaGithub />
+              </a>
             </div>
           </div>
         </Header>

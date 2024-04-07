@@ -42,7 +42,6 @@ export default function ModalMenu(props) {
   const handleOpen = (data) => {
     setOpenVideo(true);
     setVideoUrl(data);
-    console.log(data);
   };
 
   const handleClose = () => setOpenVideo(false);
@@ -152,6 +151,7 @@ export default function ModalMenu(props) {
           ,
         </Box>
       </Modal>
+      {/* SEPARATE THIS INTO ANOTHER FILE */}
       <Modal
         style={{ overflow: "scroll" }}
         open={openVideo}
