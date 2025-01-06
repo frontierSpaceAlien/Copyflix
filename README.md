@@ -21,5 +21,5 @@ The sliders were created using React Slick and I then heavily modified React Sli
 ![brave_rxWrmJoO2H](https://github.com/user-attachments/assets/ed0be11d-b8b0-41ab-a7b6-5286fb872b31)
 
 ### Current Problem(s)
-Firefox can corrupt images which is the only browser to do so.
+Firefox can corrupt images which is the only browser to do so. <br/>
 Some movie images aren't showing due to missing backdrop images from TheMovieDB.
