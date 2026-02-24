@@ -1,5 +1,5 @@
 # Copyflix
-[COPYFLIX](https://frontierspacealien.github.io/CopyflixSite/)<br> 
+[Demo](https://frontierspacealien.github.io/CopyflixSite/)<br> 
 Practice project using React to recreate the Netflix website. Uses API provided by https://www.themoviedb.org/ to get movie titles, images and descriptions. 
 
 ![image](https://github.com/user-attachments/assets/a903a948-6ea4-4cc5-ab07-23a2a31543e1)
